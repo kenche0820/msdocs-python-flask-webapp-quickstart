@@ -91,7 +91,7 @@ def hello():
         outfile.write('<P class="aligncenter"><img class="d-block mx-auto mb-4" src="static/images/azure-icon.svg" alt="Azure Logo" width="192" height="192"/></P>')
         outfile.write("<P>" + myCaption + "</P>")
         outfile.write("<P>" + myLink + "</P>")
-        outfile.write("<P><a href='http://127.0.0.1:5000' class='btn btn-primary btn-lg px-4 gap-3'>Back home</a></P>")            
+        outfile.write("<P><a href=\"{{ url_for('index') }}\" class='btn btn-primary btn-lg px-4 gap-3'>Back home</a></P>")            
         outfile.write("<P>" + myTable + "</P>")
         outfile.write('</div>')   
 
