@@ -1,5 +1,7 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from summarizer import Summarizer
+
 
 
 import os
@@ -38,7 +40,11 @@ Asked about Netflix's "second act" during the company's post-earnings call on Tu
 He added that he doesn't think Netflix will have a second act in the way Amazon has had with Amazon shopping and Amazon Web Services. Rather, Netflix will continue to improve and grow on what it already does best.
 "I'll bet we end with one hopefully gigantic, hopefully defensible profit pool, and continue to improve the service for our members," he said. "I wouldn't look for any large secondary pool of profits. There will be a bunch of supporting pools, like consumer products, that can be both profitable and can support the title brands."""
 
-tokens_input = tokenizer.encode("summarize: " + text,
+bert_model = Summarizer()
+ext_summary = bert_model(text, ratio=0.5)
+
+
+tokens_input = tokenizer.encode("summarize: " + ext_summary,
                               return_tensors='pt',
                               max_length=tokenizer.model_max_length,
                               truncation=True)
