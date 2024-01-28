@@ -81,8 +81,8 @@ def hello():
                                         truncation=True)
 
 
-        summary_ids = model.generate(tokens_input, min_length=800, 
-                                    max_length=1000, length_penalty=15, 
+        summary_ids = model.generate(tokens_input, min_length=150, 
+                                    max_length=300, length_penalty=15, 
                                     num_beams=2)
         summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
 
