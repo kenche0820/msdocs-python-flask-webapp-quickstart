@@ -67,6 +67,25 @@ def hello():
    print(tempOutput)
 
 
+   myRows = tempOutput.split(",,")      
+
+   myTable = '<!doctype html><head><title>Azure Semantic Search</title><link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css"><link rel="icon" href="static/favicon.ico"></head>'
+   myTable += "<style>table, th, td {border: 1px solid black;border-collapse: collapse;}</style>"        
+   myTable += "<TABLE><TH>File Name</TH><TH>Score</TH><TH>Contents</TH>"
+   for myRow in myRows:
+        myTable += "<TR>"  
+        myCells = myRow.split(";;")
+
+        for i in range(len(myCells)):
+            if i == 0:
+                myTable += "<TD><A href='https://setelab.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx?id=%2FShared%20Documents%2Fdocument%2F" + myCells[i] + "&parent=%2FShared%20Documents%2Fdocument&p=true&ga=1'>" + myCells[i] + "</A></TD>"                                       
+            else:
+                myTable += "<TD>" + myCells[i] + "</TD>"
+
+        myTable += "</TR>"    
+
+   print(myTable)
+
 
    if name:
        print('Request for hello page received with name=%s' % name)
