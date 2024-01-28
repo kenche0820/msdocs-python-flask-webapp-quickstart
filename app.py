@@ -68,9 +68,6 @@ def hello():
  #  bert_model = Summarizer()
  #  ext_summary = bert_model(text, ratio=0.5)
 
- #  print(ext_summary)
-
-
 
    tempOutput = "" 
    i = 0        
@@ -85,14 +82,12 @@ def hello():
 
 
         summary_ids = model.generate(tokens_input, min_length=80, 
-                                    max_length=150, length_penalty=15, 
+                                    max_length=300, length_penalty=15, 
                                     num_beams=2)
         summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
 
         print(summary)
         tempContent = summary
-
-
 
 
         tempOutput = tempOutput + result["metadata_spo_item_name"] + ";;" + str(round(result["@search.reranker_score"],2)) + ";;" + tempContent + ",,"
