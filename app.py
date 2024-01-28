@@ -55,6 +55,19 @@ def hello():
    print(myLink)
    print(myCaption)
 
+
+   tempOutput = "" 
+   i = 0        
+   for result in results:
+        tempContent = result["content"]    
+        tempContent = tempContent[0:1000]  
+
+        tempOutput = tempOutput + result["metadata_spo_item_name"] + ";;" + str(round(result["@search.reranker_score"],2)) + ";;" + tempContent + ",,"
+
+   print(tempOutput)
+
+
+
    if name:
        print('Request for hello page received with name=%s' % name)
        return render_template('hello.html', name = name)
