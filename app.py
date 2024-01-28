@@ -95,10 +95,10 @@ def hello():
 
 
 
-   import codecs
+   #import codecs
 
-   with codecs.open("templates/hello.html", 'w', encoding="utf-8") as outfile:     
-        outfile.write(myOutput)
+   #with codecs.open("templates/hello.html", 'w', encoding="utf-8") as outfile:     
+   #     outfile.write(myOutput)
 
 
 
