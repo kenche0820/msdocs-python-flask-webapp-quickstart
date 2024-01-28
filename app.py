@@ -20,6 +20,25 @@ def favicon():
 def hello():
    name = request.form.get('name')
 
+   from azure.core.credentials import AzureKeyCredential
+   from azure.search.documents import SearchClient
+
+   service_endpoint = "https://ken-cog-search-svc.search.windows.net"
+   index_name = "sharepoint-index"
+   key = "quRm9N9F4y4vGhgZBFvNtRs86VqLugIBVVeyC0drYaAzSeDm86cn"
+   
+   credential = AzureKeyCredential(key)
+   client = SearchClient(endpoint=service_endpoint, index_name=index_name, credential=credential)
+   results = list(
+        client.search(
+            search_text=name,
+            query_type="semantic",
+            semantic_configuration_name="ken-semantic-config",
+            query_caption="extractive",
+        )
+   )   
+   print(results)
+
    if name:
        print('Request for hello page received with name=%s' % name)
        return render_template('hello.html', name = name)
