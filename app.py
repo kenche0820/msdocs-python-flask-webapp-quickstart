@@ -80,7 +80,8 @@ def hello():
             else:
                 myTable += "<TD>" + myCells[i] + "</TD>"
 
-        myTable += "</TR>"    
+        myTable += "</TR>"   
+   myTable += "</TABLE>"         
 
    import codecs
 
@@ -92,13 +93,13 @@ def hello():
         outfile.write("<P>" + myLink + "</P>")
         outfile.write("<P><a href='http://127.0.0.1:5000' class='btn btn-primary btn-lg px-4 gap-3'>Back home</a></P>")            
         outfile.write("<P>" + myTable + "</P>")
-        outfile.write('</div')   
+        outfile.write('</div>')   
 
 
    if name:
        print('Request for hello page received with name=%s' % name)
        #return render_template('hello.html', name = name)
-       return redirect(url_for('hello'))
+       
    else:
        print('Request for hello page received with no name or blank name -- redirecting')
        return redirect(url_for('index'))
