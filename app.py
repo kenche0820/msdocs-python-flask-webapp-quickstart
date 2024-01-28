@@ -37,7 +37,23 @@ def hello():
             query_caption="extractive",
         )
    )   
-   print(results)
+   
+   result = results[0]   
+   myLink = "<A href='https://setelab.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx?id=%2FShared%20Documents%2Fdocument%2F" + result["metadata_spo_item_name"] + "&parent=%2FShared%20Documents%2Fdocument&p=true&ga=1'>" + result["metadata_spo_item_name"] + "</A>"          
+    
+   print(result["@search.reranker_score"])
+    
+   captions = result["@search.captions"]
+   if captions:
+        caption = captions[0]
+        if caption.highlights:
+            print(f"Caption: {caption.highlights}\n")
+            myCaption = caption.highlights
+        else:
+            print(f"Caption: {caption.text}\n")
+            myCaption = caption.text
+   print(myLink)
+   print(myCaption)
 
    if name:
        print('Request for hello page received with name=%s' % name)
