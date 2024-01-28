@@ -28,7 +28,7 @@ def hello():
     name = request.form.get('name')
    
 
-
+'''
     model = AutoModelForSeq2SeqLM.from_pretrained('t5-base')
     tokenizer = AutoTokenizer.from_pretrained('t5-base')
 
@@ -129,7 +129,7 @@ def hello():
         outfile.write("<P>" + myTable + "</P>")
         outfile.write('</div')
                 
-    # [END semantic_ranking]        
+    # [END semantic_ranking]'''        
 
 
 
