@@ -52,7 +52,7 @@ def hello():
         else:
             print(f"Caption: {caption.text}\n")
             myCaption = caption.text
-   print(myLink)
+   
    print(myCaption)
 
 
@@ -63,8 +63,6 @@ def hello():
         tempContent = tempContent[0:1000]  
 
         tempOutput = tempOutput + result["metadata_spo_item_name"] + ";;" + str(round(result["@search.reranker_score"],2)) + ";;" + tempContent + ",,"
-
-   print(tempOutput)
 
 
    myRows = tempOutput.split(",,")      
@@ -83,8 +81,6 @@ def hello():
                 myTable += "<TD>" + myCells[i] + "</TD>"
 
         myTable += "</TR>"    
-
-   print(myTable)
 
    import codecs
 
