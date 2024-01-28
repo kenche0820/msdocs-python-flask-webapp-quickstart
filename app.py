@@ -55,7 +55,6 @@ def hello():
    
    print(myCaption)
 
-
    tempOutput = "" 
    i = 0        
    for result in results:
@@ -92,13 +91,6 @@ def hello():
    myOutput += "<P><a href='http://127.0.0.1:5000/' class='btn btn-primary btn-lg px-4 gap-3'>Back home</a></P>"           
    myOutput += "<P>" + myTable + "</P>"
    myOutput += '</div>'
-
-
-
-   #import codecs
-
-   #with codecs.open("templates/hello.html", 'w', encoding="utf-8") as outfile:     
-   #     outfile.write(myOutput)
 
 
 
