@@ -65,29 +65,29 @@ def hello():
    tokenizer = AutoTokenizer.from_pretrained('t5-base')
 
 
- #  bert_model = Summarizer()
- #  ext_summary = bert_model(text, ratio=0.5)
-
-
    tempOutput = "" 
    i = 0        
    for result in results:
         tempContent = result["content"]    
 #        tempContent = tempContent[0:1000]  
-
-        tokens_input = tokenizer.encode("summarize: " + tempContent,
-                                        return_tensors='pt',
-                                        max_length=tokenizer.model_max_length,
-                                        truncation=True)
+        
+        bert_model = Summarizer()
+        ext_summary = bert_model(tempContent, ratio=0.5)
 
 
-        summary_ids = model.generate(tokens_input, min_length=80, 
-                                    max_length=150, length_penalty=15, 
-                                    num_beams=2)
-        summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+ #       tokens_input = tokenizer.encode("summarize: " + tempContent,
+ #                                       return_tensors='pt',
+ #                                       max_length=tokenizer.model_max_length,
+ #                                       truncation=True)
 
-        print(summary)
-        tempContent = summary
+
+ #       summary_ids = model.generate(tokens_input, min_length=80, 
+ #                                   max_length=150, length_penalty=15, 
+ #                                   num_beams=2)
+ #       summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+
+        print(ext_summary)
+        tempContent = ext_summary
 
 
         tempOutput = tempOutput + result["metadata_spo_item_name"] + ";;" + str(round(result["@search.reranker_score"],2)) + ";;" + tempContent + ",,"
