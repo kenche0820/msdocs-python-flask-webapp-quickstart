@@ -89,7 +89,7 @@ def hello():
    myOutput += '<P class="aligncenter"><img class="d-block mx-auto mb-4" src="static/images/azure-icon.svg" alt="Azure Logo" width="192" height="192"/></P>'
    myOutput += "<P>" + myCaption + "</P>"
    myOutput += "<P>" + myLink + "</P>"
-   myOutput += "<P><a href=\"{{ url_for('index') }}\" class='btn btn-primary btn-lg px-4 gap-3'>Back home</a></P>"           
+   myOutput += "<P><a href='http://127.0.0.1:5000/' class='btn btn-primary btn-lg px-4 gap-3'>Back home</a></P>"           
    myOutput += "<P>" + myTable + "</P>"
    myOutput += '</div>'
 
