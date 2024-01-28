@@ -61,7 +61,7 @@ def hello():
    print(myCaption)
 
 
-
+   os.environ['OMP_NUM_THREADS'] = '1'
    model = AutoModelForSeq2SeqLM.from_pretrained('t5-base')
    tokenizer = AutoTokenizer.from_pretrained('t5-base')
 
