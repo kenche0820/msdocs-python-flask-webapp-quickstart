@@ -90,23 +90,23 @@ def hello():
     He added that he doesn't think Netflix will have a second act in the way Amazon has had with Amazon shopping and Amazon Web Services. Rather, Netflix will continue to improve and grow on what it already does best.
     "I'll bet we end with one hopefully gigantic, hopefully defensible profit pool, and continue to improve the service for our members," he said. "I wouldn't look for any large secondary pool of profits. There will be a bunch of supporting pools, like consumer products, that can be both profitable and can support the title brands."""
 
-   bert_model = Summarizer()
-   ext_summary = bert_model(text, ratio=0.5)
+ #  bert_model = Summarizer()
+ #  ext_summary = bert_model(text, ratio=0.5)
 
-   print(ext_summary)
+ #  print(ext_summary)
 
- #  tokens_input = tokenizer.encode("summarize: " + ext_summary,
- #                               return_tensors='pt',
- #                               max_length=tokenizer.model_max_length,
- #                               truncation=True)
+   tokens_input = tokenizer.encode("summarize: " + text,
+                                return_tensors='pt',
+                                max_length=tokenizer.model_max_length,
+                                truncation=True)
 
 
- #  summary_ids = model.generate(tokens_input, min_length=80, 
- #                           max_length=150, length_penalty=15, 
- #                           num_beams=2)
- #  summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+   summary_ids = model.generate(tokens_input, min_length=80, 
+                            max_length=150, length_penalty=15, 
+                            num_beams=2)
+   summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
 
- #  print(summary)
+   print(summary)
 
 
 
