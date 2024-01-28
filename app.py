@@ -93,9 +93,14 @@ def hello():
    bert_model = Summarizer()
    ext_summary = bert_model(text, ratio=0.5)
 
+#   tokens_input = tokenizer.encode("summarize: " + ext_summary,
+#                                return_tensors='pt',
+#                                max_length=tokenizer.model_max_length,
+#                                truncation=True)
+
    tokens_input = tokenizer.encode("summarize: " + ext_summary,
                                 return_tensors='pt',
-                                max_length=tokenizer.model_max_length,
+                                max_length=512,
                                 truncation=True)
 
 
