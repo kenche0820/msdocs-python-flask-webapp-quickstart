@@ -86,6 +86,18 @@ def hello():
 
    print(myTable)
 
+   import codecs
+
+   with codecs.open("templates/hello.html", 'w', encoding="utf-8") as outfile:     
+        outfile.write("<style>.aligncenter{text-align: center;}</style>")
+        outfile.write('<div class="px-4 py-3 my-2 text-center">')
+        outfile.write('<P class="aligncenter"><img class="d-block mx-auto mb-4" src="static/images/azure-icon.svg" alt="Azure Logo" width="192" height="192"/></P>')
+        outfile.write("<P>" + myCaption + "</P>")
+        outfile.write("<P>" + myLink + "</P>")
+        outfile.write("<P><a href='http://localhost:8000' class='btn btn-primary btn-lg px-4 gap-3'>Back home</a></P>")            
+        outfile.write("<P>" + myTable + "</P>")
+        outfile.write('</div')   
+
 
    if name:
        print('Request for hello page received with name=%s' % name)
