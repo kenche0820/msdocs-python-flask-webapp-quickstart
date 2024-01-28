@@ -1,3 +1,6 @@
+import torch
+from transformers import AutoTokenizer, AutoModelWithLMHead
+
 import os
 
 from flask import (Flask, redirect, render_template, request,
