@@ -27,6 +27,13 @@ def favicon():
 def hello():
     name = request.form.get('name')
    
+    if name:
+        print('Request for hello page received with name=%s' % name)
+        return render_template('hello.html', name = name)
+    else:
+        print('Request for hello page received with no name or blank name -- redirecting')
+        return redirect(url_for('index'))
+
 
 '''
     model = AutoModelForSeq2SeqLM.from_pretrained('t5-base')
@@ -129,17 +136,8 @@ def hello():
         outfile.write("<P>" + myTable + "</P>")
         outfile.write('</div')
                 
-    # [END semantic_ranking]'''        
-
-
-
-
-    if name:
-        print('Request for hello page received with name=%s' % name)
-        return render_template('hello.html', name = name)
-    else:
-        print('Request for hello page received with no name or blank name -- redirecting')
-        return redirect(url_for('index'))
+    # [END semantic_ranking]     
+    '''
 
 
 if __name__ == '__main__':
