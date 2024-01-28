@@ -83,23 +83,29 @@ def hello():
         myTable += "</TR>"   
    myTable += "</TABLE>"         
 
+   myOutput = ""
+   myOutput += "<style>.aligncenter{text-align: center;}</style>"
+   myOutput += '<div class="px-4 py-3 my-2 text-center">'
+   myOutput += '<P class="aligncenter"><img class="d-block mx-auto mb-4" src="static/images/azure-icon.svg" alt="Azure Logo" width="192" height="192"/></P>'
+   myOutput += "<P>" + myCaption + "</P>"
+   myOutput += "<P>" + myLink + "</P>"
+   myOutput += "<P><a href=\"{{ url_for('index') }}\" class='btn btn-primary btn-lg px-4 gap-3'>Back home</a></P>"           
+   myOutput += "<P>" + myTable + "</P>"
+   myOutput += '</div>'
+
+
+
    import codecs
 
    with codecs.open("templates/hello.html", 'w', encoding="utf-8") as outfile:     
-        outfile.write("<style>.aligncenter{text-align: center;}</style>")
-        outfile.write('<div class="px-4 py-3 my-2 text-center">')
-        outfile.write('<P class="aligncenter"><img class="d-block mx-auto mb-4" src="static/images/azure-icon.svg" alt="Azure Logo" width="192" height="192"/></P>')
-        outfile.write("<P>" + myCaption + "</P>")
-        outfile.write("<P>" + myLink + "</P>")
-        outfile.write("<P><a href=\"{{ url_for('index') }}\" class='btn btn-primary btn-lg px-4 gap-3'>Back home</a></P>")            
-        outfile.write("<P>" + myTable + "</P>")
-        outfile.write('</div>')   
+        outfile.write(myOutput)
+
 
 
    if name:
        print('Request for hello page received with name=%s' % name)
        #return render_template('templates/hello.html', name = name)
-       return myTable
+       return myOutput
        
    else:
        print('Request for hello page received with no name or blank name -- redirecting')
