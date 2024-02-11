@@ -88,8 +88,8 @@ def hello():
     print(myCaption)
 
 
-    model = AutoModelForSeq2SeqLM.from_pretrained('t5-base')
-    tokenizer = AutoTokenizer.from_pretrained('t5-base')
+#    model = AutoModelForSeq2SeqLM.from_pretrained('t5-base')
+#    tokenizer = AutoTokenizer.from_pretrained('t5-base')
 
 
     tempOutput = "" 
