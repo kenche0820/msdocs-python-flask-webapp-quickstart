@@ -37,7 +37,7 @@ def hello():
 
     graph: Graph = Graph(azure_settings)   
 
-    token = await graph.get_user_token()
+    token = graph.get_user_token()
     print('User token:', token, '\n')
 
     name = request.form.get('name')
