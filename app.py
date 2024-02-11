@@ -29,6 +29,16 @@ def favicon():
 
 @app.route('/hello', methods=['POST'])
 def hello():
+    
+    # Load settings
+    config = configparser.ConfigParser()
+    config.read(['config.cfg', 'config.dev.cfg'])
+    azure_settings = config['azure']
+
+    graph: Graph = Graph(azure_settings)   
+
+
+
    name = request.form.get('name')
 
    from azure.core.credentials import AzureKeyCredential
