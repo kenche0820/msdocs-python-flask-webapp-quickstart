@@ -40,6 +40,15 @@ def hello():
     token = graph.get_user_token()
     print('User token:', token, '\n')
 
+    user = graph.get_user()
+    if user:
+        print('Hello,', user.display_name)
+        # For Work/school accounts, email is in mail property
+        # Personal accounts, email is in userPrincipalName
+        print('Email:', user.mail or user.user_principal_name, '\n')
+
+
+
     name = request.form.get('name')
 
     from azure.core.credentials import AzureKeyCredential
