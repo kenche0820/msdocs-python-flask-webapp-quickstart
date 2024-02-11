@@ -1,3 +1,9 @@
+import asyncio
+import configparser
+from msgraph.generated.models.o_data_errors.o_data_error import ODataError
+from graph import Graph
+
+
 import torch
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from summarizer import Summarizer
@@ -69,7 +75,7 @@ def hello():
    i = 0        
    for result in results:
         tempContent = result["content"]    
-        tempContent = tempContent[0:1000]  
+        tempContent = tempContent[0:500]  
         tempOutput = tempOutput + result["metadata_spo_item_name"] + ";;" + str(round(result["@search.reranker_score"],2)) + ";;" + tempContent + ",,"
         
 #        bert_model = Summarizer()
