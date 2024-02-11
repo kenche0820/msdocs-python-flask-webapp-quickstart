@@ -42,10 +42,10 @@ def hello():
 
     user = graph.get_user()
     if user:
-        print('Hello,', user.displayName)
+        # print('Hello,', user.displayName)
         # For Work/school accounts, email is in mail property
         # Personal accounts, email is in userPrincipalName
-        print('Email:', user.mail or user.userPrincipalName, '\n')
+        # print('Email:', user.mail or user.userPrincipalName, '\n')
 
 
 
