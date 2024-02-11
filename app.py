@@ -4,9 +4,9 @@ from msgraph.generated.models.o_data_errors.o_data_error import ODataError
 from graph import Graph
 
 
-import torch
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-from summarizer import Summarizer
+#import torch
+#from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+#from summarizer import Summarizer
 
 
 import os
@@ -42,7 +42,7 @@ def hello():
 
     user = graph.get_user()
     if user:
-        print ("Hello: ", user)
+        print ("Hello: ", str(user))
         # print('Hello,', user.displayName)        
         # For Work/school accounts, email is in mail property
         # Personal accounts, email is in userPrincipalName
