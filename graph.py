@@ -41,5 +41,5 @@ class Graph:
             query_parameters=query_params
         )
 
-        user = await self.user_client.me.get(request_configuration=request_config)
+        user = self.user_client.me.get(request_configuration=request_config)
         return user
