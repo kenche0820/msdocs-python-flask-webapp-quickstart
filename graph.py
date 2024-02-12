@@ -29,11 +29,6 @@ class Graph:
         self.device_code_credential = DeviceCodeCredential(client_id, tenant_id = tenant_id)
         self.user_client = GraphServiceClient(self.device_code_credential, graph_scopes)
 
-        #result = self.user_client.groups.get()
-        #print ("result: ", result)
-        #request_body = GetMemberGroupsPostRequestBody(security_enabled_only = True)
-        #result = self.user_client.me.get_member_groups.post(request_body)
-
     def get_user_token(self):
         graph_scopes = self.settings['graphUserScopes']
         access_token = self.device_code_credential.get_token(graph_scopes)
@@ -51,3 +46,9 @@ class Graph:
 
         user = self.user_client.me.get(request_configuration=request_config)
         return user
+    
+    def get_user_groups(self):
+        result = self.user_client.groups.get()
+        return result
+        #request_body = GetMemberGroupsPostRequestBody(security_enabled_only = True)
+        #result = self.user_client.me.get_member_groups.post(request_body)

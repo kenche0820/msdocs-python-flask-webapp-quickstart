@@ -40,11 +40,6 @@ def hello():
     token = graph.get_user_token()
     print('User token:', token, '\n')
 
-
-    result = graph.groups.get()
-    print ("Groups: ", result)
-
-
     user = graph.get_user()
     if user:
         print ("Hello: ")
@@ -53,7 +48,8 @@ def hello():
         # Personal accounts, email is in userPrincipalName
         # print('Email:', user.mail or user.userPrincipalName, '\n')
 
-
+    groups = graph.get_user_groups()
+    print("Groups: ", groups)
 
     name = request.form.get('name')
 
