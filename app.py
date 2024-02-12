@@ -40,6 +40,11 @@ def hello():
     token = graph.get_user_token()
     print('User token:', token, '\n')
 
+
+    result = graph.groups.get()
+    print ("Groups: ", result)
+
+
     user = graph.get_user()
     if user:
         print ("Hello: ")
