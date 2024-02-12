@@ -12,6 +12,9 @@ from msgraph.generated.models.body_type import BodyType
 from msgraph.generated.models.recipient import Recipient
 from msgraph.generated.models.email_address import EmailAddress
 
+from msgraph.generated.models.group import Group
+
+
 class Graph:
     settings: SectionProxy
     device_code_credential: DeviceCodeCredential
@@ -25,6 +28,11 @@ class Graph:
 
         self.device_code_credential = DeviceCodeCredential(client_id, tenant_id = tenant_id)
         self.user_client = GraphServiceClient(self.device_code_credential, graph_scopes)
+
+        result = self.user_client.groups.get()
+        print ("result: ", result)
+        #request_body = GetMemberGroupsPostRequestBody(security_enabled_only = True)
+        #result = self.user_client.me.get_member_groups.post(request_body)
 
     def get_user_token(self):
         graph_scopes = self.settings['graphUserScopes']
