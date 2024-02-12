@@ -48,7 +48,12 @@ def hello():
         # Personal accounts, email is in userPrincipalName
         # print('Email:', user.mail or user.userPrincipalName, '\n')
 
-    groups = graph.get_user_groups()
+    response = graph.get_user_groups()
+
+    groups = []
+    for group in response.json()["value"]:
+        groups.append(group["displayName"])
+
     print("Groups: ", groups)
 
     name = request.form.get('name')
