@@ -12,6 +12,8 @@ from msgraph.generated.models.body_type import BodyType
 from msgraph.generated.models.recipient import Recipient
 from msgraph.generated.models.email_address import EmailAddress
 
+from msgraph.generated.models.get_member_groups_post_request_body import GetMemberGroupsPostRequestBody
+
 class Graph:
     settings: SectionProxy
     device_code_credential: DeviceCodeCredential
@@ -51,8 +53,15 @@ class Graph:
         #result = self.user_client.me.get_member_groups.post(request_body)    
     
     async def make_graph_call(self):
-        # INSERT YOUR CODE HERE        
-        result = await self.user_client.users.by_user_id('kenneth.cheung').member_of.get()
+        # INSERT YOUR CODE HERE       
+
+        request_body = GetMemberGroupsPostRequestBody(
+            security_enabled_only = True,
+        )
+
+        result = await self.user_client.me.get_member_groups.post(request_body)
+         
+        # result = await self.user_client.users.by_user_id('kenneth.cheung').member_of.get()
 
         # Only request specific properties using $select
         #query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
