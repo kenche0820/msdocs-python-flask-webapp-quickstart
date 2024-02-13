@@ -36,7 +36,7 @@ class Graph:
     async def get_user(self):
         # Only request specific properties using $select
         query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
-            select=['displayName', 'mail', 'userPrincipalName']
+            select=['displayName', 'mail', 'userPrincipalName','id']
         )
 
         request_config = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(
