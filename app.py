@@ -51,7 +51,7 @@ def hello():
     response = graph.get_user_groups()
 
     groups = []
-    for group in response.json()["value"]:
+    for group in response.dis.json()["value"]:
         groups.append(group["displayName"])
 
     print("Groups: ", groups)

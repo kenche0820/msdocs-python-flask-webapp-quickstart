@@ -12,9 +12,6 @@ from msgraph.generated.models.body_type import BodyType
 from msgraph.generated.models.recipient import Recipient
 from msgraph.generated.models.email_address import EmailAddress
 
-from msgraph.generated.models.group import Group
-
-
 class Graph:
     settings: SectionProxy
     device_code_credential: DeviceCodeCredential
@@ -29,12 +26,12 @@ class Graph:
         self.device_code_credential = DeviceCodeCredential(client_id, tenant_id = tenant_id)
         self.user_client = GraphServiceClient(self.device_code_credential, graph_scopes)
 
-    def get_user_token(self):
+    async def get_user_token(self):
         graph_scopes = self.settings['graphUserScopes']
         access_token = self.device_code_credential.get_token(graph_scopes)
         return access_token.token
-
-    def get_user(self):
+    
+    async def get_user(self):
         # Only request specific properties using $select
         query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
             select=['displayName', 'mail', 'userPrincipalName']
@@ -44,11 +41,27 @@ class Graph:
             query_parameters=query_params
         )
 
-        user = self.user_client.me.get(request_configuration=request_config)
+        user = await self.user_client.me.get(request_configuration=request_config)
         return user
     
-    def get_user_groups(self):
+    async def get_user_groups(self):
         result = self.user_client.groups.get()
         return result
         #request_body = GetMemberGroupsPostRequestBody(security_enabled_only = True)
-        #result = self.user_client.me.get_member_groups.post(request_body)
+        #result = self.user_client.me.get_member_groups.post(request_body)    
+    
+    async def make_graph_call(self):
+        # INSERT YOUR CODE HERE        
+        result = await self.user_client.users.by_user_id('kenneth.cheung').member_of.get()
+
+        # Only request specific properties using $select
+        #query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
+        #    select=['displayName', 'mail', 'userPrincipalName']
+        #)
+
+        #request_config = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(
+        #    query_parameters=query_params
+        #)
+
+        #user = await self.user_client.me.get(request_configuration=request_config)
+        return result
