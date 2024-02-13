@@ -50,10 +50,14 @@ def hello():
 
     groups = graph.get_user_groups()
 
+    if groups:        
+        for i in range(len(groups.value)):
+            print(f"display_name: {groups.value[i].display_name}")
+
     #groups = []
     #for group in response.dis.json()["value"]:
     #    groups.append(group["displayName"])
-    print("Groups: ", groups, '\n')
+    #print("Groups: ", groups, '\n')
 
     name = request.form.get('name')
 
@@ -101,7 +105,7 @@ def hello():
     i = 0        
     for result in results:
         tempContent = result["content"]    
-        tempContent = tempContent[0:500]  
+        tempContent = tempContent[0:1000]  
         tempOutput = tempOutput + result["metadata_spo_item_name"] + ";;" + str(round(result["@search.reranker_score"],2)) + ";;" + tempContent + ",,"
         
     #        bert_model = Summarizer()
