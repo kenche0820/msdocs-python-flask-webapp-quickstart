@@ -12,7 +12,7 @@ from msgraph.generated.models.body_type import BodyType
 from msgraph.generated.models.recipient import Recipient
 from msgraph.generated.models.email_address import EmailAddress
 
-from msgraph.generated.models.get_member_groups_post_request_body import GetMemberGroupsPostRequestBody
+#from msgraph.generated.models.get_member_groups_post_request_body import GetMemberGroupsPostRequestBody
 
 class Graph:
     settings: SectionProxy
@@ -54,13 +54,18 @@ class Graph:
     
     async def make_graph_call(self):
         # INSERT YOUR CODE HERE       
+        users = await self.user_client.users.get()
+        if users and users.value:
+            for user in users.value:
+                print("User: ", user.id, user.display_name, user.mail)
 
-        request_body = GetMemberGroupsPostRequestBody(
-            security_enabled_only = True,
-        )
 
-        result = await self.user_client.me.get_member_groups.post(request_body)
+        #request_body = GetMemberGroupsPostRequestBody(
+        #    security_enabled_only = True,
+        #)
+        #result = await self.user_client.me.get_member_groups.post(request_body)
          
+
         # result = await self.user_client.users.by_user_id('kenneth.cheung').member_of.get()
 
         # Only request specific properties using $select
