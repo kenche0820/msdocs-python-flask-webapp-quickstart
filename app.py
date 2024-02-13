@@ -28,7 +28,7 @@ def favicon():
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route('/hello', methods=['POST'])
-def hello():
+async def hello():
     
     # Load settings
     config = configparser.ConfigParser()
@@ -37,7 +37,7 @@ def hello():
 
     graph: Graph = Graph(azure_settings)   
 
-    user = graph.get_user()
+    user = await graph.get_user()
     if user:
         print('Hello,', user.display_name)
         print('ID:', user.id, '\n')
