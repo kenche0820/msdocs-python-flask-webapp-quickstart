@@ -78,4 +78,4 @@ class Graph:
         #)
 
         #user = await self.user_client.me.get(request_configuration=request_config)
-        return result
+        return users
