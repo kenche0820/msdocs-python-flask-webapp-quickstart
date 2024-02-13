@@ -53,6 +53,15 @@ class Graph:
         #result = self.user_client.me.get_member_groups.post(request_body)    
     
     async def make_graph_call(self):
+        query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
+            select=['displayName', 'mail', 'userPrincipalName','id']
+        )
+        request_config = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(
+            query_parameters=query_params
+        )
+        user = await self.user_client.me.get(request_configuration=request_config)
+        result = await self.user_client.users.by_user_id(user.id).member_of.get()
+
         #users = await self.user_client.users.get()
         #if users and users.value:
         #    for user in users.value:
@@ -66,15 +75,10 @@ class Graph:
          
 
         # Only request specific properties using $select
-        query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
-            select=['displayName', 'mail', 'userPrincipalName','id']
-        )
-        request_config = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(
-            query_parameters=query_params
-        )
-        user = await self.user_client.me.get(request_configuration=request_config)
-        result = await self.user_client.users.by_user_id(user.id).member_of.get()
-
+        #query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
+        #    select=['displayName', 'mail', 'userPrincipalName','id']
+        #)
+        
         # Only request specific properties using $select
         #query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
         #    select=['displayName', 'mail', 'userPrincipalName']
@@ -83,4 +87,4 @@ class Graph:
         #    query_parameters=query_params
         #)
         #user = await self.user_client.me.get(request_configuration=request_config)
-        return users
+        return result
