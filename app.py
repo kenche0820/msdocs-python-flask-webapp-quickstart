@@ -37,12 +37,17 @@ def hello():
 
     graph: Graph = Graph(azure_settings)   
 
+    user = graph.get_user()
+    if user:
+        print('Hello,', user.display_name)
+        print('ID:', user.id, '\n')
+
     token = graph.get_user_token()
     print('User token:', token, '\n')
 
     user = graph.get_user()
     if user:
-        print ("Hello: ", user.id, '\n')
+        print ("Hello: ", user, '\n')
         # print('Hello,', user.displayName)        
         # For Work/school accounts, email is in mail property
         # Personal accounts, email is in userPrincipalName
