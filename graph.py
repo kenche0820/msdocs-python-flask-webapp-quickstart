@@ -53,11 +53,10 @@ class Graph:
         #result = self.user_client.me.get_member_groups.post(request_body)    
     
     async def make_graph_call(self):
-        # INSERT YOUR CODE HERE       
-        users = await self.user_client.users.get()
-        if users and users.value:
-            for user in users.value:
-                print("User: ", user.id, user.display_name, user.mail)
+        #users = await self.user_client.users.get()
+        #if users and users.value:
+        #    for user in users.value:
+        #        print("User: ", user.id, user.display_name, user.mail)
 
 
         #request_body = GetMemberGroupsPostRequestBody(
@@ -66,16 +65,22 @@ class Graph:
         #result = await self.user_client.me.get_member_groups.post(request_body)
          
 
-        # result = await self.user_client.users.by_user_id('kenneth.cheung').member_of.get()
+        # Only request specific properties using $select
+        query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
+            select=['displayName', 'mail', 'userPrincipalName','id']
+        )
+        request_config = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(
+            query_parameters=query_params
+        )
+        user = await self.user_client.me.get(request_configuration=request_config)
+        result = await self.user_client.users.by_user_id(user.id).member_of.get()
 
         # Only request specific properties using $select
         #query_params = UserItemRequestBuilder.UserItemRequestBuilderGetQueryParameters(
         #    select=['displayName', 'mail', 'userPrincipalName']
         #)
-
         #request_config = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(
         #    query_parameters=query_params
         #)
-
         #user = await self.user_client.me.get(request_configuration=request_config)
         return users
