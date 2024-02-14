@@ -42,23 +42,10 @@ async def hello():
         print('Hello,', user.display_name)
         print('ID:', user.id, '\n')
 
-    token = graph.get_user_token()
-    print('User token:', token, '\n')
-
-    user = graph.get_user()
-    if user:
-        print ("Hello: ", user, '\n')
-        # print('Hello,', user.displayName)        
-        # For Work/school accounts, email is in mail property
-        # Personal accounts, email is in userPrincipalName
-        # print('Email:', user.mail or user.userPrincipalName, '\n')
-
-#    groups = graph.get_user_groups()
-    
-
-#    if groups:        
-#        for i in range(len(groups.value)):
-#            print(f"display_name: {groups.value[i].display_name}")
+    groups = graph.get_user_groups()    
+    if groups:        
+        for i in range(len(groups.value)):
+            print(f"display_name: {groups.value[i].display_name}")
 
     #groups = []
     #for group in response.dis.json()["value"]:
@@ -88,7 +75,7 @@ async def hello():
     result = results[0]   
     myLink = "<A href='https://setelab.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx?id=%2FShared%20Documents%2Fdocument%2F" + result["metadata_spo_item_name"] + "&parent=%2FShared%20Documents%2Fdocument&p=true&ga=1'>" + result["metadata_spo_item_name"] + "</A>"          
 
-    print(result["@search.reranker_score"])
+    print("Score: ", result["@search.reranker_score"])
 
     captions = result["@search.captions"]
     if captions:
