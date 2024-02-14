@@ -78,7 +78,7 @@ async def make_graph_call(graph: Graph):
     groups = await graph.make_graph_call()
     if groups:        
         for i in range(len(groups.value)):
-            print(f"display_name: {groups.value[i].display_name}")
+            print(f"group_name: {groups.value[i].display_name}")
         
 
 # Run main

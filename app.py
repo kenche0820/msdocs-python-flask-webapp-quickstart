@@ -42,10 +42,10 @@ async def hello():
         print('Hello,', user.display_name)
         print('ID:', user.id, '\n')
 
-    groups = graph.make_graph_call()    
+    groups = await graph.make_graph_call()    
     if groups:        
         for i in range(len(groups.value)):
-            print(f"display_name: {groups.value[i].display_name}")
+            print(f"group_name: {groups.value[i].display_name}")
 
     #groups = []
     #for group in response.dis.json()["value"]:
