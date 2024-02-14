@@ -42,7 +42,7 @@ async def hello():
         print('Hello,', user.display_name)
         print('ID:', user.id, '\n')
 
-    groups = graph.get_user_groups()    
+    groups = graph.make_graph_call()    
     if groups:        
         for i in range(len(groups.value)):
             print(f"display_name: {groups.value[i].display_name}")
