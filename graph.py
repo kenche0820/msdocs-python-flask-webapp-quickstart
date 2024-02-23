@@ -16,7 +16,7 @@ from msgraph.generated.models.email_address import EmailAddress
 
 from office365.sharepoint.client_context import ClientContext
 from office365.sharepoint.permissions.kind import PermissionKind
-from azure.identity import ClientCredential
+
 
 
 class Graph:
@@ -57,9 +57,18 @@ class Graph:
     #        test_user_credentials,
     #        test_user_principal_name_alt,
     #    )
+        
         test_team_site_url = "https://setelab.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx?id=%2FShared%20Documents%2Fdocument&viewid=e897cbc5%2D8bb9%2D4e62%2Da958%2Dc488b8604d35&noAuthRedirect=1"
-        test_user_credentials = ClientCredential('kenneth.cheung@setenet.ca','QUb8Q~IwE59T_yyXOi10vq6xumpbZtChemfnpaXI')
+        test_user_credentials = ""
         test_user_principal_name_alt = user.user_principal_name
+
+
+        test_user_credentials = ClientContext(test_team_site_url).with_client_credentials(
+            'kenneth.cheung@setenet.ca', 'QUb8Q~IwE59T_yyXOi10vq6xumpbZtChemfnpaXI'
+        )
+        #target_web = ctx.web.get().execute_query()
+        #print(target_web.url)
+
 
         client = ClientContext(test_team_site_url).with_credentials(test_user_credentials)
         file_url = result["metadata_spo_item_name"]
