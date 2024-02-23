@@ -7,3 +7,4 @@ msgraph
 ODataError
 msgraph-sdk
 azure-identity
+office365
