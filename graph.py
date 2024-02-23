@@ -58,7 +58,7 @@ class Graph:
     #        test_user_principal_name_alt,
     #    )
         test_team_site_url = "https://setelab.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx?id=%2FShared%20Documents%2Fdocument&viewid=e897cbc5%2D8bb9%2D4e62%2Da958%2Dc488b8604d35&noAuthRedirect=1"
-        test_user_credentials = self.device_code_credential
+        test_user_credentials = ClientCredential('kenneth.cheung@setenet.ca','QUb8Q~IwE59T_yyXOi10vq6xumpbZtChemfnpaXI')
         test_user_principal_name_alt = user.user_principal_name
 
         client = ClientContext(test_team_site_url).with_credentials(test_user_credentials)
