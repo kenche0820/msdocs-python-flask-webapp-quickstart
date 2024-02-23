@@ -59,6 +59,7 @@ class Graph:
     #    )
         
         test_team_site_url = "https://setelab.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx?id=%2FShared%20Documents%2Fdocument&viewid=e897cbc5%2D8bb9%2D4e62%2Da958%2Dc488b8604d35&noAuthRedirect=1"
+        test_team_site_url = "https://setelab.sharepoint.com"
         test_user_credentials = ""
         test_user_principal_name_alt = user.user_principal_name
 
