@@ -16,7 +16,7 @@ from msgraph.generated.models.email_address import EmailAddress
 
 from office365.sharepoint.client_context import ClientContext
 from office365.sharepoint.permissions.kind import PermissionKind
-
+from azure.identity import ClientCredential
 
 
 class Graph:
