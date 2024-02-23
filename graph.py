@@ -14,6 +14,11 @@ from msgraph.generated.models.email_address import EmailAddress
 
 #from msgraph.generated.models.get_member_groups_post_request_body import GetMemberGroupsPostRequestBody
 
+from office365.sharepoint.client_context import ClientContext
+from office365.sharepoint.permissions.kind import PermissionKind
+
+
+
 class Graph:
     settings: SectionProxy
     device_code_credential: DeviceCodeCredential
@@ -27,6 +32,37 @@ class Graph:
 
         self.device_code_credential = DeviceCodeCredential(client_id, tenant_id = tenant_id)
         self.user_client = GraphServiceClient(self.device_code_credential, graph_scopes)
+
+    #    from tests import (
+    #        test_team_site_url,
+    #        test_user_credentials,
+    #        test_user_principal_name_alt,
+    #    )
+        test_team_site_url = ""
+        test_user_credentials = ""
+        test_user_principal_name_alt = ""
+
+        client = ClientContext(test_team_site_url).with_credentials(test_user_credentials)
+        file_url = result["metadata_spo_item_name"]
+
+        target_user = client.web.site_users.get_by_email(test_user_principal_name_alt)
+        target_file = client.web.get_file_by_server_relative_path(file_url)
+        myPermission = target_file.listItemAllFields.get_user_effective_permissions(
+            target_user
+        ).execute_query()
+        # verify whether user has Reader role to a file
+        if myPermission.value.has(PermissionKind.OpenItems):
+            print("User has access to read a file")
+
+
+
+
+
+
+
+
+
+
 
     async def get_user_token(self):
         graph_scopes = self.settings['graphUserScopes']
