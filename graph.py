@@ -33,36 +33,6 @@ class Graph:
         self.device_code_credential = DeviceCodeCredential(client_id, tenant_id = tenant_id)
         self.user_client = GraphServiceClient(self.device_code_credential, graph_scopes)
 
-    #    from tests import (
-    #        test_team_site_url,
-    #        test_user_credentials,
-    #        test_user_principal_name_alt,
-    #    )
-        test_team_site_url = "https://setelab.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx?id=%2FShared%20Documents%2Fdocument&viewid=e897cbc5%2D8bb9%2D4e62%2Da958%2Dc488b8604d35&noAuthRedirect=1"
-        test_user_credentials = self.device_code_credential
-        test_user_principal_name_alt = "kenneth.cheung@setenet.ca"
-
-        client = ClientContext(test_team_site_url).with_credentials(test_user_credentials)
-        file_url = result["metadata_spo_item_name"]
-
-        target_user = client.web.site_users.get_by_email(test_user_principal_name_alt)
-        target_file = client.web.get_file_by_server_relative_path(file_url)
-        myPermission = target_file.listItemAllFields.get_user_effective_permissions(
-            target_user
-        ).execute_query()
-        # verify whether user has Reader role to a file
-        if myPermission.value.has(PermissionKind.OpenItems):
-            print("User has access to read a file")
-
-
-
-
-
-
-
-
-
-
 
     async def get_user_token(self):
         graph_scopes = self.settings['graphUserScopes']
@@ -80,6 +50,32 @@ class Graph:
         )
 
         user = await self.user_client.me.get(request_configuration=request_config)
+
+
+    #    from tests import (
+    #        test_team_site_url,
+    #        test_user_credentials,
+    #        test_user_principal_name_alt,
+    #    )
+        test_team_site_url = "https://setelab.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx?id=%2FShared%20Documents%2Fdocument&viewid=e897cbc5%2D8bb9%2D4e62%2Da958%2Dc488b8604d35&noAuthRedirect=1"
+        test_user_credentials = self.device_code_credential
+        test_user_principal_name_alt = user.user_principal_name
+
+        client = ClientContext(test_team_site_url).with_credentials(test_user_credentials)
+        file_url = result["metadata_spo_item_name"]
+
+        target_user = client.web.site_users.get_by_email(test_user_principal_name_alt)
+        target_file = client.web.get_file_by_server_relative_path(file_url)
+        myPermission = target_file.listItemAllFields.get_user_effective_permissions(
+            target_user
+        ).execute_query()
+        # verify whether user has Reader role to a file
+        if myPermission.value.has(PermissionKind.OpenItems):
+            print("User has access to read a file")
+
+
+
+
         return user
     
     async def get_user_groups(self):
