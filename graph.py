@@ -65,8 +65,8 @@ class Graph:
 
         test_user_credentials = ClientContext(test_team_site_url).with_client_credentials(
             'kenneth.cheung@setenet.ca', 'QUb8Q~IwE59T_yyXOi10vq6xumpbZtChemfnpaXI'
-        )
-        test_user_credentials = UserCredential('kenneth.cheung@setenet.ca','Amor23fati!')        
+        )        
+        test_user_credentials = ClientContext(test_team_site_url).with_user_credentials('kenneth.cheung@setenet.ca','Amor23fati!')       
         #target_web = ctx.web.get().execute_query()
         #print(target_web.url)
 
