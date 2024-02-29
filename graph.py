@@ -14,8 +14,6 @@ from msgraph.generated.models.email_address import EmailAddress
 
 #from msgraph.generated.models.get_member_groups_post_request_body import GetMemberGroupsPostRequestBody
 
-
-
 class Graph:
     settings: SectionProxy
     device_code_credential: DeviceCodeCredential
@@ -23,17 +21,48 @@ class Graph:
 
     def __init__(self, config: SectionProxy):
         self.settings = config
-        client_id = self.settings['clientId']
-        tenant_id = self.settings['tenantId']
-        graph_scopes = self.settings['graphUserScopes'].split(' ')
+        #tenant_id = self.settings['tenantId']
+        #graph_scopes = self.settings['graphUserScopes'].split(' ')
 
-        self.device_code_credential = DeviceCodeCredential(client_id, tenant_id = tenant_id)
-        self.user_client = GraphServiceClient(self.device_code_credential, graph_scopes)
+        #self.device_code_credential = DeviceCodeCredential(client_id, tenant_id = tenant_id)
+        #self.user_client = GraphServiceClient(self.device_code_credential, graph_scopes)
 
 
     async def get_user_token(self):
-        graph_scopes = self.settings['graphUserScopes']
-        access_token = self.device_code_credential.get_token(graph_scopes)
+        #graph_scopes = self.settings['graphUserScopes']
+        #access_token = self.device_code_credential.get_token(graph_scopes)
+
+        client_id = self.settings['clientId']
+        tenant_id = self.settings['tenantId']
+
+        import msal
+        # Enter the details of your AAD app registration
+        client_secret = 'QUb8Q~IwE59T_yyXOi10vq6xumpbZtChemfnpaXI'
+        authority = 'https://login.microsoftonline.com/' + tenant_id
+        scope = ['https://graph.microsoft.com/.default']
+
+
+        # Create an MSAL instance providing the client_id, authority and client_credential parameters
+        client = msal.ConfidentialClientApplication(client_id, authority=authority, client_credential=client_secret)
+
+        # First, try to lookup an access token in cache
+        token_result = client.acquire_token_silent(scope, account=None)
+
+        # If the token is available in cache, save it to a variable
+        if token_result:
+            access_token = 'Bearer ' + token_result['access_token']
+            print('Access token was loaded from cache')
+
+        # If the token is not available in cache, acquire a new one from Azure AD and save it to a variable
+        if not token_result:
+            token_result = client.acquire_token_for_client(scopes=scope)
+            access_token = 'Bearer ' + token_result['access_token']
+            print('New access token was acquired from Azure AD')
+
+        print(access_token)
+
+
+
         return access_token.token
     
     async def get_user(self):
