@@ -4,7 +4,7 @@ from msgraph.generated.models.o_data_errors.o_data_error import ODataError
 from graph import Graph
 
 async def main():
-    print('Python Graph Tutorial\n')
+    print('Python Graph App-Only Tutorial\n')
 
     # Load settings
     config = configparser.ConfigParser()
@@ -13,17 +13,14 @@ async def main():
 
     graph: Graph = Graph(azure_settings)
 
-    await greet_user(graph)
-
     choice = -1
 
     while choice != 0:
         print('Please choose one of the following options:')
         print('0. Exit')
         print('1. Display access token')
-        print('2. List my inbox')
-        print('3. Send mail')
-        print('4. Make a Graph call')
+        print('2. List users')
+        print('3. Make a Graph call')
 
         try:
             choice = int(input())
@@ -36,10 +33,8 @@ async def main():
             elif choice == 1:
                 await display_access_token(graph)
             elif choice == 2:
-                await list_inbox(graph)
+                await list_users(graph)
             elif choice == 3:
-                await send_mail(graph)
-            elif choice == 4:
                 await make_graph_call(graph)
             else:
                 print('Invalid choice!\n')
@@ -48,38 +43,30 @@ async def main():
             if odata_error.error:
                 print(odata_error.error.code, odata_error.error.message)
 
-async def greet_user(graph: Graph):
-    user = await graph.get_user()
-    if user:
-        print('Hello,', user.display_name)
-        # For Work/school accounts, email is in mail property
-        # Personal accounts, email is in userPrincipalName
-        print('Email:', user.mail or user.user_principal_name, '\n')
-        print('ID:', user.id, '\n')
 
 async def display_access_token(graph: Graph):
-    token = graph.get_user_token()
-    print('User token:', token, '\n')
+    token = await graph.get_app_only_token()
+    print('App-only token:', token, '\n')
 
-async def list_inbox(graph: Graph):
-    # TODO
-    return
+async def list_users(graph: Graph):
+    users_page = await graph.get_users()
 
-async def send_mail(graph: Graph):
-    # TODO
-    return
+    # Output each users's details
+    if users_page and users_page.value:
+        for user in users_page.value:
+            print('User:', user.display_name)
+            print('  ID:', user.id)
+            print('  Email:', user.mail)
+
+        # If @odata.nextLink is present
+        more_available = users_page.odata_next_link is not None
+        print('\nMore users available?', more_available, '\n')
+
 
 async def make_graph_call(graph: Graph):
-    #groups = await graph.get_user_groups()
-    #if groups:
-        #print('Hi,', groups.value)
-    #    for i in range(len(groups.value)):
-    #        print(f"display_name: {groups.value[i].display_name}")
-    groups = await graph.make_graph_call()
-    if groups:        
-        for i in range(len(groups.value)):
-            print(f"group_name: {groups.value[i].display_name}")
-        
+    user = await graph.make_graph_call()
+    print('User:', user, '\n')
+
 
 # Run main
 asyncio.run(main())
