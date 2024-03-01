@@ -16,8 +16,8 @@ from msgraph.generated.models.email_address import EmailAddress
 
 class Graph:
     settings: SectionProxy
-    device_code_credential: DeviceCodeCredential
-    user_client: GraphServiceClient
+    #device_code_credential: DeviceCodeCredential
+    #user_client: GraphServiceClient
 
     def __init__(self, config: SectionProxy):
         self.settings = config
@@ -62,6 +62,21 @@ class Graph:
         print(access_token)
 
 
+        import requests
+
+        # Copy access_token and specify the MS Graph API endpoint you want to call, e.g. 'https://graph.microsoft.com/v1.0/groups' to get all groups in your organization        
+        url = 'https://graph.microsoft.com/v1.0/groups'
+        headers = {
+        'Authorization': access_token
+        }
+
+        # Make a GET request to the provided url, passing the access token in a header
+        graph_result = requests.get(url=url, headers=headers)
+
+        # Print the results in a JSON format
+        print(graph_result.json())
+
+
 
         return access_token.token
     
@@ -76,12 +91,13 @@ class Graph:
         )
 
         #user = await self.user_client.me.get(request_configuration=request_config)
-        user = await self.user_client.me.get(request_configuration=request_config)
+        user = null
 
         return user
     
     async def get_user_groups(self):
-        result = self.user_client.groups.get()
+        #result = self.user_client.groups.get()
+        result = null
         return result
         #request_body = GetMemberGroupsPostRequestBody(security_enabled_only = True)
         #result = self.user_client.me.get_member_groups.post(request_body)    
@@ -93,8 +109,8 @@ class Graph:
         request_config = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(
             query_parameters=query_params
         )
-        user = await self.user_client.me.get(request_configuration=request_config)
-        result = await self.user_client.users.by_user_id(user.id).member_of.get()
+        #user = await self.user_client.me.get(request_configuration=request_config)
+        #result = await self.user_client.users.by_user_id(user.id).member_of.get()
 
         #users = await self.user_client.users.get()
         #if users and users.value:
@@ -121,4 +137,5 @@ class Graph:
         #    query_parameters=query_params
         #)
         #user = await self.user_client.me.get(request_configuration=request_config)
+        result = null
         return result
