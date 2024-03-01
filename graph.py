@@ -91,13 +91,13 @@ class Graph:
         )
 
         #user = await self.user_client.me.get(request_configuration=request_config)
-        user = null
+        user = ""
 
         return user
     
     async def get_user_groups(self):
         #result = self.user_client.groups.get()
-        result = null
+        result = ""
         return result
         #request_body = GetMemberGroupsPostRequestBody(security_enabled_only = True)
         #result = self.user_client.me.get_member_groups.post(request_body)    
@@ -137,5 +137,5 @@ class Graph:
         #    query_parameters=query_params
         #)
         #user = await self.user_client.me.get(request_configuration=request_config)
-        result = null
+        result = ""
         return result
