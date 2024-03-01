@@ -49,9 +49,12 @@ class Graph:
 
         
         test_team_site_url = "https://setelab.sharepoint.com/"
-        test_user_credentials = self.client_credential
-        
     
+        client_id = self.settings['clientId']
+        tenant_id = self.settings['tenantId']
+        client_secret = self.settings['clientSecret']
+
+        test_user_credentials = ClientSecretCredential(tenant_id, client_id, client_secret)    
 
         client = ClientContext(test_team_site_url).with_credentials(test_user_credentials)
         file_url = "Shared Documents/Group_Benefits.pdf"
