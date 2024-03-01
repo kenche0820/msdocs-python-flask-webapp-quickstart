@@ -43,10 +43,10 @@ class Graph:
 
 
         # Create an MSAL instance providing the client_id, authority and client_credential parameters
-        client = msal.ConfidentialClientApplication(client_id, authority=authority, client_credential=client_secret)
+        self.client = msal.ConfidentialClientApplication(client_id, authority=authority, client_credential=client_secret)
 
         # First, try to lookup an access token in cache
-        token_result = client.acquire_token_silent(scope, account=None)
+        token_result = self.client.acquire_token_silent(scope, account=None)
 
         # If the token is available in cache, save it to a variable
         if token_result:
@@ -75,12 +75,13 @@ class Graph:
             query_parameters=query_params
         )
 
-        user = await self.user_client.me.get(request_configuration=request_config)
+        #user = await self.user_client.me.get(request_configuration=request_config)
+        user = await self.client.me.get(request_configuration=request_config)
 
         return user
     
     async def get_user_groups(self):
-        result = self.user_client.groups.get()
+        result = self.client.groups.get()
         return result
         #request_body = GetMemberGroupsPostRequestBody(security_enabled_only = True)
         #result = self.user_client.me.get_member_groups.post(request_body)    
@@ -92,8 +93,8 @@ class Graph:
         request_config = UserItemRequestBuilder.UserItemRequestBuilderGetRequestConfiguration(
             query_parameters=query_params
         )
-        user = await self.user_client.me.get(request_configuration=request_config)
-        result = await self.user_client.users.by_user_id(user.id).member_of.get()
+        user = await self.client.me.get(request_configuration=request_config)
+        result = await self.client.users.by_user_id(user.id).member_of.get()
 
         #users = await self.user_client.users.get()
         #if users and users.value:
