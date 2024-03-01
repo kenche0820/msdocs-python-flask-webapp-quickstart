@@ -3,6 +3,9 @@ from azure.identity.aio import ClientSecretCredential
 from msgraph import GraphServiceClient
 from msgraph.generated.users.users_request_builder import UsersRequestBuilder
 
+from office365.sharepoint.client_context import ClientContext
+from office365.sharepoint.permissions.kind import PermissionKind
+
 class Graph:
     settings: SectionProxy
     client_credential: ClientSecretCredential
@@ -42,6 +45,24 @@ class Graph:
         scopes = ['https://graph.microsoft.com/.default']
         graph_client = GraphServiceClient(self.client_credential, scopes)
 
-        result = await graph_client.users.by_user_id('561ca5be-74b7-4d96-a878-5185a54eff2e').member_of.get()
+        user = await graph_client.users.by_user_id('561ca5be-74b7-4d96-a878-5185a54eff2e').member_of.get()
+
+        
+        test_team_site_url = "https://setelab.sharepoint.com/"
+        test_user_credentials = self.client_credential
+        
+    
+
+        client = ClientContext(test_team_site_url).with_credentials(test_user_credentials)
+        file_url = "Shared Documents/Group_Benefits.pdf"
+
+        target_user = user
+        target_file = client.web.get_file_by_server_relative_path(file_url)
+        result = target_file.listItemAllFields.get_user_effective_permissions(
+            target_user
+        ).execute_query()
+        # verify whether user has Reader role to a file
+        if result.value.has(PermissionKind.OpenItems):
+            print("User has access to read a file")        
 
         return result
