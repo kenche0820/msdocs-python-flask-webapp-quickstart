@@ -37,10 +37,10 @@ async def hello():
 
     graph: Graph = Graph(azure_settings)   
 
-    user = await graph.get_user()
-    if user:
-        print('Hello,', user.display_name)
-        print('ID:', user.id, '\n')
+#    user = await graph.get_user()
+#    if user:
+#        print('Hello,', user.display_name)
+#        print('ID:', user.id, '\n')
 
     groups = await graph.make_graph_call()    
     if groups:        
