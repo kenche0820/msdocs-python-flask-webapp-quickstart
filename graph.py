@@ -6,6 +6,7 @@ from msgraph.generated.users.users_request_builder import UsersRequestBuilder
 from office365.sharepoint.client_context import ClientContext
 from office365.sharepoint.permissions.kind import PermissionKind
 
+
 class Graph:
     settings: SectionProxy
     client_credential: ClientSecretCredential
@@ -47,20 +48,25 @@ class Graph:
 
         user = await graph_client.users.by_user_id('561ca5be-74b7-4d96-a878-5185a54eff2e').member_of.get()
 
+
         
         test_team_site_url = "https://setelab.sharepoint.com/"
     
         client_id = self.settings['clientId']
-        tenant_id = self.settings['tenantId']
         client_secret = self.settings['clientSecret']
 
-        test_user_credentials = ClientSecretCredential(tenant_id, client_id, client_secret)    
 
-        client = ClientContext(test_team_site_url).with_credentials(test_user_credentials)
+
+        ctx = ClientContext(test_team_site_url).with_client_credentials(
+            client_id, client_secret
+        )
+
+
+
         file_url = "Shared Documents/Group_Benefits.pdf"
 
         target_user = user
-        target_file = client.web.get_file_by_server_relative_path(file_url)
+        target_file = ctx.web.get_file_by_server_relative_path(file_url)
         result = target_file.listItemAllFields.get_user_effective_permissions(
             target_user
         ).execute_query()
