@@ -1,9 +1,13 @@
-import torch
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-from summarizer import Summarizer
+import asyncio
+import configparser
+from msgraph.generated.models.o_data_errors.o_data_error import ODataError
+from graph import Graph
 
-import logging
-import sys
+
+#import torch
+#from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+#from summarizer import Summarizer
+
 
 import os
 
@@ -24,24 +28,31 @@ def favicon():
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route('/hello', methods=['POST'])
-def hello():
+async def hello():
+    
+    # Load settings
+    config = configparser.ConfigParser()
+    config.read(['config.cfg', 'config.dev.cfg'])
+    azure_settings = config['azure']
+
+    graph: Graph = Graph(azure_settings)   
+
+#    user = await graph.get_user()
+#    if user:
+#        print('Hello,', user.display_name)
+#        print('ID:', user.id, '\n')
+
+    groups = await graph.make_graph_call()    
+    if groups:        
+        for i in range(len(groups.value)):
+            print(f"group_name: {groups.value[i].display_name}")
+
+    #groups = []
+    #for group in response.dis.json()["value"]:
+    #    groups.append(group["displayName"])
+    #print("Groups: ", groups, '\n')
+
     name = request.form.get('name')
-   
-    if name:
-        print('Request for hello page received with name=%s' % name)
-        return render_template('hello.html', name = name)
-    else:
-        print('Request for hello page received with no name or blank name -- redirecting')
-        return redirect(url_for('index'))
-
-
-'''
-    model = AutoModelForSeq2SeqLM.from_pretrained('t5-base')
-    tokenizer = AutoTokenizer.from_pretrained('t5-base')
-
-    bert_model = Summarizer()
-
-
 
     from azure.core.credentials import AzureKeyCredential
     from azure.search.documents import SearchClient
@@ -59,13 +70,12 @@ def hello():
             semantic_configuration_name="ken-semantic-config",
             query_caption="extractive",
         )
-    )
-
+    )   
+   
     result = results[0]   
     myLink = "<A href='https://setelab.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx?id=%2FShared%20Documents%2Fdocument%2F" + result["metadata_spo_item_name"] + "&parent=%2FShared%20Documents%2Fdocument&p=true&ga=1'>" + result["metadata_spo_item_name"] + "</A>"          
 
-    print(result["@search.reranker_score"])
-    logging.error(result["@search.reranker_score"])
+    #print("Score: ", result["@search.reranker_score"])
 
     captions = result["@search.captions"]
     if captions:
@@ -77,37 +87,23 @@ def hello():
             print(f"Caption: {caption.text}\n")
             myCaption = caption.text
 
+#    model = AutoModelForSeq2SeqLM.from_pretrained('t5-base')
+#    tokenizer = AutoTokenizer.from_pretrained('t5-base')
 
 
 
-
-            
 
     tempOutput = "" 
     i = 0        
     for result in results:
-        #tempContent = result["content"]    
-        #tempContent = tempContent[0:1000]    
-
-        text = result["content"]
-        ext_summary = bert_model(text, ratio=0.5)
-
-        tokens_input = tokenizer.encode("summarize: " + ext_summary,
-                                    return_tensors='pt',
-                                    max_length=tokenizer.model_max_length,
-                                    truncation=True)
-
-
-        summary_ids = model.generate(tokens_input, min_length=80, 
-                                max_length=150, length_penalty=15, 
-                                num_beams=2)
-        summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
-
-        tempContent = summary
-
-
+        tempContent = result["content"]    
+        tempContent = tempContent[0:1000]  
         tempOutput = tempOutput + result["metadata_spo_item_name"] + ";;" + str(round(result["@search.reranker_score"],2)) + ";;" + tempContent + ",,"
-                    
+        
+    #        bert_model = Summarizer()
+    #        ext_summary = bert_model(tempContent, ratio=0.5)
+
+
     myRows = tempOutput.split(",,")      
 
     myTable = '<!doctype html><head><title>Azure Semantic Search</title><link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css"><link rel="icon" href="static/favicon.ico"></head>'
@@ -123,21 +119,29 @@ def hello():
             else:
                 myTable += "<TD>" + myCells[i] + "</TD>"
 
-        myTable += "</TR>"    
+        myTable += "</TR>"   
+    myTable += "</TABLE>"         
+
+    myOutput = ""
+    myOutput += "<style>.aligncenter{text-align: center;}</style>"
+    myOutput += '<div class="px-4 py-3 my-2 text-center">'
+    myOutput += '<P class="aligncenter"><img class="d-block mx-auto mb-4" src="static/images/azure-icon.svg" alt="Azure Logo" width="192" height="192"/></P>'
+    myOutput += "<P>" + myCaption + "</P>"
+    myOutput += "<P>" + myLink + "</P>"
+    myOutput += "<P><a href='http://127.0.0.1:5000/' class='btn btn-primary btn-lg px-4 gap-3'>Back home</a></P>"           
+    myOutput += "<P>" + myTable + "</P>"
+    myOutput += '</div>'
 
 
-    with codecs.open("hello_azure/templates/hello_azure/hello.html", 'w', encoding="utf-8") as outfile:     
-        outfile.write("<style>.aligncenter{text-align: center;}</style>")
-        outfile.write('<div class="px-4 py-3 my-2 text-center">')
-        outfile.write('<P class="aligncenter"><img class="d-block mx-auto mb-4" src="static/images/azure-icon.svg" alt="Azure Logo" width="192" height="192"/></P>')
-        outfile.write("<P>" + myCaption + "</P>")
-        outfile.write("<P>" + myLink + "</P>")
-        outfile.write("<P><a href='http://localhost:8000' class='btn btn-primary btn-lg px-4 gap-3'>Back home</a></P>")            
-        outfile.write("<P>" + myTable + "</P>")
-        outfile.write('</div')
-                
-    # [END semantic_ranking]     
-    '''
+
+    if name:
+        #print('Request for hello page received with name=%s' % name)
+        #return render_template('templates/hello.html', name = name)
+        return myOutput
+        
+    else:
+        print('Request for hello page received with no name or blank name -- redirecting')
+        return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
